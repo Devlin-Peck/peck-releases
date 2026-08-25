@@ -152,9 +152,9 @@
       </p>
       <h1>Run many Claude Code agents in parallel, each in its own container, on its own branch.</h1>
       <p class="lede">
-        Peck is a desktop app. Pick a GitHub repo, say what the workspace is for, and Peck clones it,
-        creates a branch, builds a firewalled dev container and opens a terminal already running Claude Code.
-        <strong>Do that ten times and you have ten agents working ten branches side by side</strong>, with no
+        Peck is a desktop app. Start a project, say what it's for, and Peck creates a branch, builds a
+        firewalled dev container and opens Claude Code inside it, ready to work.
+        <strong>Do that five times and you have five agents working five branches side by side</strong>, with no
         shared state to trip over.
       </p>
 
@@ -173,8 +173,8 @@
 
       <ul class="facts">
         <li><b>Isolated workspaces</b><span>Every workspace is a git worktree inside its own dev container. Nothing an agent does leaks into another branch or onto your machine.</span></li>
-        <li><b>A firewall agents can't lower</b><span>Containers reach only the domains you allow. An agent can ask for a new one; only your click in Peck grants it.</span></li>
-        <li><b>Nothing else to install on a Mac</b><span>The download bundles git, a container engine and everything Claude Code needs. Sign in to GitHub and go.</span></li>
+        <li><b>A firewall that contains your agents</b><span>Containers reach only the domains you allow. An agent can ask for a new one; only your click in Peck grants it.</span></li>
+        <li><b>Friendly for new developers</b><span>No toolchain to assemble: the download bundles git, a container engine and everything Claude Code needs, on Mac and Windows. Sign in to GitHub and go.</span></li>
         <li><b>Themable, scriptable</b><span>The app chrome, terminal palette and Claude Code theme are plain JSON. Change them from the sidebar, or let an agent do it with the <code>peck</code> CLI.</span></li>
       </ul>
 
@@ -188,7 +188,7 @@
   <footer>
     <div class="wrap">
       <span>Peck is free while in beta. Made by <a href="https://devlin.ai">devlin.ai</a>.</span>
-      <span><a href="https://github.com/Devlin-Peck/peck-releases/issues">Report a problem</a></span>
+      <span>Problems? Email <a href="mailto:support@devlin.ai">support@devlin.ai</a></span>
     </div>
   </footer>
 
