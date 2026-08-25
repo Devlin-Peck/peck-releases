@@ -27,7 +27,7 @@ collects nothing.
 - The macOS build is Apple Silicon only; the Windows build is x64 only. The
   page says so.
 
-Test the pure helpers (platform detection, asset picking) with:
+Test the pure helpers (platform detection, asset picking) locally with:
 
 ```bash
 node --test site.test.mjs
