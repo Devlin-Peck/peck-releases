@@ -54,20 +54,15 @@
     a:focus-visible, .btn:focus-visible { outline: 2px solid var(--blue-hi); outline-offset: 3px; }
     .wrap { width: min(100% - 48px, 680px); margin: 0 auto; }
 
-    /* Wordmark: the app icon *is* the first letter. */
+    /* Wordmark: the app icon (the same image as the Dock / DMG) beside the
+       name, set in the brand display face. */
     header { padding: 36px 0 0; }
-    header .wrap { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .wordmark {
-      display: inline-flex; align-items: center; gap: 2px;
-      font: 800 34px/1 var(--display); letter-spacing: -0.02em; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 12px;
+      font: 800 30px/1 var(--display); letter-spacing: -0.02em; text-decoration: none;
     }
-    .tile {
-      display: inline-grid; place-items: center;
-      width: 1.1em; height: 1.1em; border-radius: 24%;
-      background: linear-gradient(135deg, var(--blue), var(--violet));
-      color: #fff; font: inherit; line-height: 1;
-      padding-bottom: 0.1em; /* optical: sit the p's bowl at center */
-    }
+    .logo { width: 44px; height: 44px; border-radius: 22%; display: block; }
     .by { font: 500 15px var(--display); color: var(--fog); }
     .by a { text-decoration: none; color: var(--paper); }
     .by a:hover { color: var(--blue-hi); }
@@ -140,7 +135,7 @@
 <body>
   <header>
     <div class="wrap">
-      <a class="wordmark" href="/" aria-label="peck"><span class="tile" aria-hidden="true">p</span>eck</a>
+      <a class="wordmark" href="/" aria-label="Peck"><img class="logo" src="/icon.png" width="44" height="44" alt="">Peck</a>
       <span class="by">by <a href="https://devlin.ai">devlin.ai</a></span>
     </div>
   </header>
