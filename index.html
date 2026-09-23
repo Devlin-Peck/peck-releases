@@ -116,6 +116,10 @@
     .facts code { font: 13px var(--mono); color: var(--paper); background: var(--surface); padding: 1px 6px; border-radius: 4px; }
     .requires { margin: 22px 0 0; font: 13px/1.7 var(--mono); color: var(--fog); }
     .requires b { color: var(--paper); font-weight: 600; }
+    .install-help { margin: 40px 0 0; padding: 18px 20px; border: 1px solid var(--surface-2); border-radius: 10px; background: var(--surface); color: var(--fog); }
+    .install-help h2 { margin: 0 0 8px; font: 600 17px/1.4 var(--display); color: var(--paper); }
+    .install-help p { margin: 8px 0 0; }
+    .install-help b { color: var(--paper); font-weight: 600; }
 
     footer { border-top: 1px solid var(--surface-2); padding: 22px 0 36px; font-size: 14px; color: var(--fog); }
     footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
@@ -177,6 +181,16 @@
         <b>Requires</b> macOS 13 or later on Apple Silicon, or Windows 11 (64-bit), plus a Claude account for Claude Code.<br>
         <b>Beta</b> means rough edges. Installed apps update themselves as fixes ship.
       </p>
+
+      <section class="install-help" id="windows" aria-labelledby="windows-title">
+        <h2 id="windows-title">Installing on Windows</h2>
+        <p>Peck's installer is signed by DEVLIN.AI LLC. Because Peck is new, Windows may still show a blue
+          "Windows protected your PC" box when you open it. Click <b>More info</b>, then <b>Run anyway</b>.</p>
+        <p>During setup Windows will ask for permission a couple of times. Choose <b>Yes</b>. Your PC needs one
+          restart, and Peck picks up where it left off when you sign back in.</p>
+        <p>Some PCs also need a virtualization setting turned on in their startup settings. If yours does,
+          Peck tells you and walks you through it.</p>
+      </section>
     </div>
   </main>
 
