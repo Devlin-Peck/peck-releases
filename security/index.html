@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peck — Security overview</title>
+  <link rel="canonical" href="https://peck.devlin.ai/security/">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <meta name="theme-color" content="#08080f">
+  <style>
+    @font-face { font-family: "Outfit"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/outfit-latin.woff2") format("woff2"); }
+    :root { --ink: #08080f; --surface: #12121f; --surface-2: #1e1e30; --line: #3a3a5e; --paper: #f0f0f5; --fog: #aaaaaa; --blue-hi: #3b9eff;
+      --display: "Outfit", system-ui, sans-serif; --body: system-ui, -apple-system, "Segoe UI", sans-serif; --mono: Menlo, "SF Mono", Consolas, monospace; }
+    * { box-sizing: border-box; }
+    html { background: var(--ink); color: var(--paper); }
+    body { margin: 0; font: 16px/1.65 var(--body); -webkit-font-smoothing: antialiased; }
+    a { color: var(--blue-hi); }
+    a:focus-visible { outline: 2px solid var(--blue-hi); outline-offset: 3px; }
+    .wrap { width: min(100% - 32px, 760px); margin: 0 auto; }
+    header { padding: 28px 0 8px; border-bottom: 1px solid var(--surface-2); }
+    header .brand { font: 600 22px/1 var(--display); color: var(--paper); text-decoration: none; }
+    header nav { margin-top: 12px; font-size: 14px; color: var(--fog); }
+    header nav span { color: var(--paper); }
+    main { padding: 24px 0 48px; overflow-wrap: anywhere; }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.25; }
+    h1 { font-size: 32px; margin: 16px 0 8px; }
+    h2 { font-size: 22px; margin: 32px 0 8px; }
+    h3 { font-size: 18px; margin: 24px 0 6px; }
+    code { font: 0.9em var(--mono); background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+    pre { background: var(--surface); padding: 12px; border-radius: 8px; overflow-x: auto; }
+    pre code { padding: 0; }
+    .table { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--surface); }
+    blockquote { margin: 0; padding-left: 14px; border-left: 3px solid var(--line); color: var(--fog); }
+    footer { border-top: 1px solid var(--surface-2); padding: 22px 0 36px; font-size: 13px; color: var(--fog); }
+    footer a { color: var(--fog); }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="/">Peck</a><nav><a href="/terms/">Terms of Use</a> · <a href="/privacy/">Privacy Policy</a> · <a href="/subprocessors/">Subprocessors</a> · <span aria-current="page">Security overview</span></nav></div></header>
+  <main class="wrap">
+<h1>Peck security overview</h1>
+<p><strong>DEVLIN.AI LLC · November 2026 · for security reviewers</strong></p>
+<p>Peck is a desktop app for macOS and Windows that runs AI coding agents
+(Claude Code and Codex), each in its own container on the person&#39;s computer.
+An optional iPhone app and relay let the person steer it from elsewhere. This
+document describes how Peck is built to be safe, what leaves the computer and
+what Peck does not protect against.</p>
+<h2>1. Architecture</h2>
+<pre><code> ┌──────────────────────── the person&#39;s computer ─────────────────────────┐
+ │  Peck (Electron main process)                                          │
+ │   ├─ settings, keychain-encrypted secrets, audit log (private folder)  │
+ │   ├─ local API for the in-container `peck` CLI (per-workspace token)   │
+ │   └─ container engine (Docker Desktop / OrbStack / Lima / WSL)         │
+ │        ├─ workspace container: agent + project worktree + firewall     │
+ │        ├─ workspace container: …                                       │
+ │        └─ Orchestrator container: read-only dev folder + firewall      │
+ └──────────────┬──────────────────────────────────┬──────────────────────┘
+                │ agents → the person&#39;s AI provider │ (optional) E2E-encrypted
+                │ (Anthropic / OpenAI / Bedrock /   │ relay on Cloudflare
+                │  Vertex / company gateway)        ▼
+                ▼                              iPhone / other computers
+</code></pre>
+<p>Peck doesn&#39;t pay for, resell or route model usage. The agents call the
+person&#39;s AI provider directly, under the person&#39;s own account.</p>
+<h2>2. What leaves the computer</h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Destination</th>
+<th>When</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>The person&#39;s AI provider</td>
+<td>While agents work</td>
+<td>The prompts and code the agent sends, under the person&#39;s account</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>When GitHub is connected</td>
+<td>Sign-in, clone and push of the person&#39;s repositories, pull request status</td>
+</tr>
+<tr>
+<td>Package registries and approved domains</td>
+<td>From inside containers</td>
+<td>What the project installs; only domains on the firewall allowlist</td>
+</tr>
+<tr>
+<td>Context7 (<code>mcp.context7.com</code>), a documentation service</td>
+<td>While agents work, on by default</td>
+<td>Peck&#39;s default settings give agents Context7 as a tool, so it is allowed in every workspace and an agent may send it documentation look-ups (library names and questions). It is a third party that the agent talks to directly. It can be turned off in Settings → Claude setup, or per project.</td>
+</tr>
+<tr>
+<td>GitHub&#39;s published address list (<code>api.github.com/meta</code>)</td>
+<td>When a workspace&#39;s firewall is applied, at most once a day</td>
+<td>A request with no sign-in, to learn GitHub&#39;s network ranges for the firewall. GitHub sees the IP address. Peck does the same with Stripe&#39;s list only when <code>api.stripe.com</code> is allowed.</td>
+</tr>
+<tr>
+<td>GitHub Releases</td>
+<td>Update checks, unless turned off by policy</td>
+<td>Download requests</td>
+</tr>
+<tr>
+<td>Cloudflare (Peck relay)</td>
+<td>Only when remote access is on</td>
+<td>End-to-end encrypted messages; device identifiers, timing and sizes. Cloudflare sees IP addresses.</td>
+</tr>
+<tr>
+<td>Vercel, Supabase</td>
+<td>Only when linked</td>
+<td>API calls for the linked project</td>
+</tr>
+</tbody></table></div>
+<p><strong>Peck has no telemetry, analytics or crash reporting</strong>, and none of its
+dependencies provides them.</p>
+<h2>3. Threat model</h2>
+<p><strong>Peck assumes the agent is hostile.</strong> A prompt injection in a README or a
+package can take an agent over, and agents run with permission prompts off by
+default. Peck&#39;s controls therefore have to hold without the agent&#39;s
+cooperation.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>What it stops</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A container per workspace</td>
+<td>The agent reaching files on the computer outside its own project. Project configurations can&#39;t add host mounts, privileged mode, the engine&#39;s socket or extra capabilities.</td>
+</tr>
+<tr>
+<td>No root inside the container</td>
+<td>The agent changing the firewall or the system. <code>sudo</code> is removed after every start.</td>
+</tr>
+<tr>
+<td>Outbound firewall (allowlist)</td>
+<td>The agent sending data to arbitrary hosts. Everything not on the allowlist is refused, DNS goes only to the container&#39;s own resolver, and IPv6 is filtered or the container doesn&#39;t start.</td>
+</tr>
+<tr>
+<td>Allowlist read from the computer</td>
+<td>The agent allowing its own domains. The project&#39;s allowlist file is read from the committed default branch, never from the agent&#39;s working copy, and new domains need a click by default.</td>
+</tr>
+<tr>
+<td>Shared git folder clean-up</td>
+<td>The agent leaving hooks or settings that would make git on the computer run a program. This cleans up after the fact; see &quot;The shared git folder&quot; below.</td>
+</tr>
+<tr>
+<td>Orchestrator lockdown</td>
+<td>The Orchestrator, an optional agent that works across projects, writing everywhere. It sees the projects folder read-only and has its own firewall.</td>
+</tr>
+<tr>
+<td>Local API identity</td>
+<td>One container acting as another. Each container has its own token, and secrets are never returned to containers.</td>
+</tr>
+<tr>
+<td>Settings only the person can change</td>
+<td>The agent relaxing a safety setting. Agents can&#39;t change firewall, remote access, host access, permission or account settings.</td>
+</tr>
+<tr>
+<td>Organisation policy</td>
+<td>The person, or an agent, changing what IT decided (section 7).</td>
+</tr>
+</tbody></table></div>
+<p><strong>Approving domains without a click.</strong> One setting, <code>firewall.autoApprove</code>,
+makes Peck grant an agent&#39;s domain request for its workspace without a click.
+It is off by default and has no switch in Settings. It can be turned on only
+by editing Peck&#39;s settings file on the computer, in a folder containers can&#39;t
+see, and Peck refuses any firewall change that comes from an agent. Every
+approval is written to the activity log. An agent that the person lets run
+directly on the computer, outside a container, can edit files there,
+including this one. The policy setting <code>firewall.agentRequests: &quot;off&quot;</code> stops
+domain requests altogether, whatever this setting says.</p>
+<p><strong>The shared git folder.</strong> A project&#39;s shared git folder is writable from its
+containers. Peck gives each container an empty hooks folder. It removes
+settings that would make git on the computer run a program, and undoes
+redirects such as a changed <code>commondir</code>, at every container start and stop
+and within about two seconds of a change while the container runs. A setting
+written and used inside that window, or a kind of setting Peck doesn&#39;t
+recognise, is not caught. If Peck can&#39;t check the settings, the workspace
+says so.</p>
+<h2>4. Credentials</h2>
+<ul>
+<li><strong>Claude subscription sign-in:</strong> Peck never reads, copies, refreshes or
+relays it. Claude Code handles it inside the containers, and an automated
+test enforces this.</li>
+<li><strong>ChatGPT (Codex) sign-in:</strong> copied into a workspace only when the person
+clicks &quot;Use the ChatGPT sign-in Peck has&quot;. Each copy is written to the
+activity log.</li>
+<li><strong>Secrets stored on the computer:</strong> the Claude API or gateway key, the
+GitHub token, MCP server secrets and project environment values are
+encrypted with the operating system&#39;s keychain, in a folder containers
+can&#39;t see. Each reaches a container differently:<ul>
+<li><strong>Claude API or gateway key:</strong> passed through standard input and written
+by the container user to a file only that user can read, in the
+workspace&#39;s own storage. It never appears in command lines, environment
+variables or logs.</li>
+<li><strong>GitHub token and MCP server settings:</strong> each is written as a
+short-lived file, readable only by its owner, into the workspace&#39;s
+project folder. The container&#39;s setup script moves it into the
+container&#39;s own private files, then deletes it, and Peck deletes it
+again when setup ends. While setup runs, anything already running in
+that container as the same user could read the file.</li>
+<li><strong>Project environment values:</strong> written to the project&#39;s env file
+(<code>.env.local</code> by default, readable only by its owner and kept out of
+git), where the project&#39;s own programs read them. The agent can read them
+too (section 8).</li>
+</ul>
+</li>
+<li><strong>GitHub inside containers:</strong> each workspace holds a GitHub token
+(section 8).</li>
+<li><strong>Logs:</strong> Peck redacts anything shaped like a token from every line of its
+log.</li>
+</ul>
+<h2>5. Remote access (optional)</h2>
+<p>Remote access is off by default. Each device has a P-256 ECDSA identity key
+kept in its operating system&#39;s keychain. Sessions use ephemeral ECDH P-256,
+HKDF-SHA256 and AES-256-GCM with counter nonces. The relay forwards opaque
+frames and can&#39;t read them. Pairing a device needs a click on the computer;
+pairings last 30 days and renew while in use, and any device can be revoked
+at once. Terminals open only from another of the person&#39;s computers, never
+from a phone.</p>
+<p>The relay logs no IP addresses itself. Cloudflare&#39;s request logs, which
+include IP addresses, are kept for a sample of 1 in 100 requests. For each
+computer, the relay stores only the computer&#39;s relay identifier, the
+identifiers of revoked devices and hourly file-transfer counts for the last
+24 hours.</p>
+<h2>6. Updates and build integrity</h2>
+<ul>
+<li>Installers are built by GitHub Actions. macOS builds are signed with an
+Apple Developer ID and notarized; Windows builds are signed through Azure
+Artifact Signing.</li>
+<li>The updater checks each update&#39;s SHA-512 hash before installing it.</li>
+<li>Bundled binaries (the Docker CLI, buildx and Lima) are checked against
+pinned SHA-256 hashes, and the Lima guest image is pinned by digest.</li>
+<li>CI actions are pinned to commit hashes, and workflows are read-only by
+default.</li>
+<li>Dependabot, a dependency audit and Semgrep static analysis run on every
+change. Any high or critical advisory blocks a merge, except the one listed
+in section 8.</li>
+<li>Each release includes a CycloneDX software bill of materials (SBOM) for
+the app&#39;s npm packages. The bundled Docker CLI, buildx and Lima are not in
+it.</li>
+<li>Steps for verifying a release&#39;s signatures and hashes are available from
+<a href="mailto:security@devlin.ai">security@devlin.ai</a>.</li>
+</ul>
+<h2>7. Admin controls</h2>
+<p>An organisation can deploy a <code>policy.json</code> file through its device management
+(MDM). The file can:</p>
+<ul>
+<li>turn off remote access, agents on the computer itself, the Orchestrator,
+automations and agents&#39; domain requests;</li>
+<li>pin the relay;</li>
+<li>limit which GitHub owners and Claude account types can be used;</li>
+<li>set Claude&#39;s permission mode;</li>
+<li>add domains that are always allowed;</li>
+<li>require the iPhone app lock;</li>
+<li>set how updates behave.</li>
+</ul>
+<p>If Peck can&#39;t read the policy file, it fails closed. On macOS and Linux, Peck
+ignores a policy file that the person owns or can write to. On Windows, Peck
+applies the file at <code>%ProgramData%\Peck\policy.json</code> as it finds it, because
+it can&#39;t check Windows permissions itself, so IT must create the <code>Peck</code>
+folder so that only administrators can write to it.</p>
+<p>Claude Code&#39;s managed settings files and Codex&#39;s managed config file on the
+computer are copied, owned by root, into every container. Settings delivered
+through a device-management profile or from the vendor&#39;s servers are not
+files, so they are not copied.</p>
+<p>Peck keeps an activity log of approvals, pairings, workspaces, requests from
+paired devices and policy loads for 12 months. It can be exported from
+Settings.</p>
+<h2>8. Known limitations</h2>
+<ul>
+<li><strong>DNS tunnelling:</strong> a container can resolve any name through its allowed
+resolver, so data could be encoded in DNS queries.</li>
+<li><strong>GitHub token in containers:</strong> each workspace holds a GitHub token that
+can reach the person&#39;s other repositories, not only the workspace&#39;s own.</li>
+<li><strong>Build-time mounts:</strong> mounts that a devcontainer feature or base image
+adds exist during the image build, before Peck&#39;s check removes them.</li>
+<li><strong>The project&#39;s own secrets:</strong> an agent can read the project&#39;s
+<code>.env.local</code> and anything else in its project folder.</li>
+<li><strong>The shared git folder is cleaned, not walled off</strong> (section 3).</li>
+<li><strong>Submodule hooks:</strong> a submodule&#39;s hooks folder is not replaced the way the
+main one is; its git settings are cleaned.</li>
+<li><strong>Firewall re-apply:</strong> while Peck re-applies a container&#39;s firewall, for
+example after an approval, new connections from it are briefly refused.</li>
+<li><strong>Containers left running through a Peck update</strong> keep their previous
+firewall rules until they restart.</li>
+<li><strong>DNS in Compose workspaces:</strong> on a container engine whose Docker doesn&#39;t
+list its upstream DNS servers for Compose networks, DNS in a Compose
+workspace may not answer.</li>
+<li><strong>Approvals without a click:</strong> if the person turns on
+<code>firewall.autoApprove</code> (section 3), agents&#39; domain requests are granted
+without a click and written to the activity log.</li>
+<li><strong>Windows policy file:</strong> Peck can&#39;t check who may write
+<code>%ProgramData%\Peck\policy.json</code>. That depends on IT locking the folder.</li>
+<li><strong>Services on the computer:</strong> a container can reach only Peck&#39;s own API and
+the local MCP servers&#39; ports on the computer. The firewall refuses other
+services there, such as a local database.</li>
+<li><strong>Desktop dependencies:</strong> the bundled Electron version has one open
+high-severity advisory (GHSA-jr5w-w6x2-84p9), fixed only in a newer major
+version. It is the only exception the dependency audit allows; any other
+high or critical advisory blocks a merge.</li>
+<li><strong>Source code:</strong> Peck&#39;s source code is not public.</li>
+</ul>
+<h2>9. Contact</h2>
+<p>Report security problems to <a href="mailto:security@devlin.ai">security@devlin.ai</a>. DEVLIN.AI LLC, Portland,
+Oregon.</p>
+
+  </main>
+  <footer><div class="wrap">
+    <p>Peck is made by DEVLIN.AI LLC. It runs Claude Code and Codex, which you sign in to with your own accounts.
+    Peck is not affiliated with or endorsed by Anthropic or OpenAI. Claude and Claude Code are trademarks of
+    Anthropic, PBC; Codex and ChatGPT are trademarks of OpenAI.</p>
+    <p><a href="/">Download</a> · <a href="mailto:legal@devlin.ai">legal@devlin.ai</a> · <a href="mailto:security@devlin.ai">security@devlin.ai</a></p>
+  </div></footer>
+</body>
+</html>

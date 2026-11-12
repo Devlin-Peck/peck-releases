@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peck — Privacy Policy</title>
+  <link rel="canonical" href="https://peck.devlin.ai/privacy/">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <meta name="theme-color" content="#08080f">
+  <style>
+    @font-face { font-family: "Outfit"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/outfit-latin.woff2") format("woff2"); }
+    :root { --ink: #08080f; --surface: #12121f; --surface-2: #1e1e30; --line: #3a3a5e; --paper: #f0f0f5; --fog: #aaaaaa; --blue-hi: #3b9eff;
+      --display: "Outfit", system-ui, sans-serif; --body: system-ui, -apple-system, "Segoe UI", sans-serif; --mono: Menlo, "SF Mono", Consolas, monospace; }
+    * { box-sizing: border-box; }
+    html { background: var(--ink); color: var(--paper); }
+    body { margin: 0; font: 16px/1.65 var(--body); -webkit-font-smoothing: antialiased; }
+    a { color: var(--blue-hi); }
+    a:focus-visible { outline: 2px solid var(--blue-hi); outline-offset: 3px; }
+    .wrap { width: min(100% - 32px, 760px); margin: 0 auto; }
+    header { padding: 28px 0 8px; border-bottom: 1px solid var(--surface-2); }
+    header .brand { font: 600 22px/1 var(--display); color: var(--paper); text-decoration: none; }
+    header nav { margin-top: 12px; font-size: 14px; color: var(--fog); }
+    header nav span { color: var(--paper); }
+    main { padding: 24px 0 48px; overflow-wrap: anywhere; }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.25; }
+    h1 { font-size: 32px; margin: 16px 0 8px; }
+    h2 { font-size: 22px; margin: 32px 0 8px; }
+    h3 { font-size: 18px; margin: 24px 0 6px; }
+    code { font: 0.9em var(--mono); background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+    pre { background: var(--surface); padding: 12px; border-radius: 8px; overflow-x: auto; }
+    pre code { padding: 0; }
+    .table { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--surface); }
+    blockquote { margin: 0; padding-left: 14px; border-left: 3px solid var(--line); color: var(--fog); }
+    footer { border-top: 1px solid var(--surface-2); padding: 22px 0 36px; font-size: 13px; color: var(--fog); }
+    footer a { color: var(--fog); }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="/">Peck</a><nav><a href="/terms/">Terms of Use</a> · <span aria-current="page">Privacy Policy</span> · <a href="/subprocessors/">Subprocessors</a> · <a href="/security/">Security overview</a></nav></div></header>
+  <main class="wrap">
+<h1>Peck Privacy Policy</h1>
+<p><strong>Last updated: November 11, 2026</strong></p>
+<p>DEVLIN.AI LLC (&quot;we&quot;, &quot;us&quot;) makes Peck: the desktop app, the iPhone app and
+the optional relay. This policy explains what information Peck handles, where
+it goes and who is responsible for it.</p>
+<p><strong>In short:</strong> Peck has no account with us, and no tracking or analytics. It
+sends nothing to us unless you turn on remote access, and even then we can&#39;t
+read your messages. Peck does send your work to the services you use it with,
+like your AI provider and GitHub. Those services handle it under their own
+privacy policies, not this one.</p>
+<h2>1. What Peck stores on your computer</h2>
+<p>Peck stores your code, your prompts and chats, your agents&#39; output, your
+settings, and your keys and sign-ins on your computer: in Peck&#39;s folders, in
+the containers it runs and in your operating system&#39;s keychain. We don&#39;t
+receive copies of any of this.</p>
+<p>Your information leaves your computer only in the ways described in sections
+2 and 3, and the main ones are your choice. For example, when an agent works
+on your code, the agent sends that code and your prompts to your AI provider.</p>
+<p><strong>Peck has no telemetry or analytics.</strong> It has no usage tracking, no crash
+reporting service and no advertising identifiers.</p>
+<h2>2. Services you connect: they receive your information, not us</h2>
+<p>When you use Peck with these services, the information goes <strong>directly from
+your computer to the service</strong>. Each one handles it under its own terms and
+privacy policy. We don&#39;t receive it, and we don&#39;t control what the service
+records or how long it keeps it.</p>
+<ul>
+<li><strong>Your AI provider</strong> (for example Anthropic for Claude Code, OpenAI for
+Codex, or a cloud platform or gateway you chose). Your agents send the
+provider your prompts, the code and files they read, their tool output and
+anything else they work on, under your account. <strong>The provider may record
+and keep this.</strong> That depends on your account type and its settings, and if
+your account is managed by your organisation, the organisation may be able
+to see it too.</li>
+<li><strong>GitHub</strong>, if you connect it: to sign you in, clone and push your
+repositories and show pull request status, under your GitHub account.</li>
+<li><strong>Tools you or your agents add</strong>, such as MCP servers and plugins. They
+receive whatever the agent sends them. One of them is on by default:
+<strong>Context7</strong> (<code>mcp.context7.com</code>), a documentation lookup service. An agent
+may send it the names of software libraries and its questions about them.
+You can turn it off in Settings → Claude setup, or for one project in that
+project&#39;s settings.</li>
+<li><strong>Hosting and database services you link</strong>, such as Vercel or Supabase.</li>
+<li><strong>Websites and package registries your projects use.</strong> Your workspaces
+reach the sites your projects need (such as npm and Debian/Ubuntu package
+archives) and the domains you approve.</li>
+</ul>
+<p>If you add a devlin.ai service as a tool, that is governed by devlin.ai&#39;s own
+privacy policy.</p>
+<h2>3. What reaches us or our providers</h2>
+<p><strong>Updates and downloads.</strong> Peck downloads its updates and engine files from
+GitHub Releases (<code>github.com/Devlin-Peck/peck-releases</code>), and container
+images from Docker and Ubuntu image hosts. To set up your workspaces&#39;
+firewall, it also fetches GitHub&#39;s public list of its network addresses, and
+Stripe&#39;s if you allow Stripe for a workspace; it sends no sign-in with these
+requests. These hosts see your IP address and what was downloaded. We don&#39;t receive individual download records.</p>
+<p><strong>The relay, only if you turn on remote access.</strong> Remote access is off by
+default. While it&#39;s off, Peck never connects to the relay. When you turn it
+on, your computer and your paired phones or computers connect through a relay
+we run on <strong>Cloudflare</strong>.</p>
+<ul>
+<li><strong>Messages are end-to-end encrypted.</strong> Neither the relay nor we can read
+them.</li>
+<li><strong>What the relay sees:</strong> the device identifiers it uses to route messages,
+when devices connect, how big messages are and whether a message carries
+file data.</li>
+<li><strong>What the relay stores, for each computer:</strong> the identifier it routes
+that computer&#39;s messages by, the identifiers of devices you have revoked
+and hourly counts of file traffic for the last 24 hours.</li>
+<li><strong>IP addresses:</strong> Cloudflare sees each connection&#39;s IP address and timing,
+as any web host does. The relay keeps Cloudflare&#39;s request logs for a
+sample of 1 in 100 requests, which include IP addresses. Our own code never
+records IP addresses.</li>
+</ul>
+<p><strong>Our website.</strong> The website at <code>peck.devlin.ai</code> is hosted on GitHub Pages.
+GitHub may log visitors&#39; IP addresses. The site has no analytics or cookies
+of its own.</p>
+<p><strong>When you contact us.</strong> If you email us, we keep your email and our replies
+for as long as we need them to deal with your message and keep records.</p>
+<h2>4. The iPhone app</h2>
+<p>The Peck iPhone app has no analytics or tracking. It connects only to your
+own computers, through the relay, and its messages are end-to-end encrypted.
+Apple may collect information under its own policies, for example App Store
+downloads, and crash reports if you&#39;ve agreed to share them with developers.</p>
+<h2>5. If your organisation manages your computer</h2>
+<p>Your employer or organisation may set up Peck through a policy file. It may
+also collect Peck&#39;s <strong>activity log</strong>, which Peck keeps on your computer for
+12 months. The log records events such as approvals, device pairings,
+requests from your paired devices and workspaces created or removed. It records what happened,
+<strong>not what you or your agents wrote</strong>. It holds no prompts, chat text or
+secrets.</p>
+<p>Your organisation may also be able to see your work in other ways that Peck
+doesn&#39;t control. For example, an organisation-managed AI provider account
+(section 2) or the organisation&#39;s own monitoring of its computers and
+network. All of that is your organisation&#39;s responsibility, under its own
+policies.</p>
+<h2>6. How we use information, and our legal basis</h2>
+<p>We use the limited information described in section 3 only to provide and
+secure the relay and our website, to fix problems and to answer your
+messages. Our legal basis, where the law requires one, is providing the
+service you asked for and our legitimate interest in keeping it working and
+secure. <strong>We don&#39;t sell or share personal information, and we don&#39;t use it
+for advertising.</strong></p>
+<h2>7. Where information is processed</h2>
+<p>We&#39;re based in the United States, and our providers (Cloudflare and GitHub)
+may process information in the United States and other countries.</p>
+<h2>8. Security</h2>
+<p>We protect what we hold: encryption in transit, end-to-end encryption for
+relay messages and as little data as possible. No system is perfectly
+secure. To report a security problem, write to <a href="mailto:security@devlin.ai">security@devlin.ai</a>.</p>
+<h2>9. Your rights</h2>
+<p>Depending on where you live, you may have the right to know what personal
+information we hold about you, and to have it corrected or deleted. Because
+Peck sends us almost nothing, there is usually nothing to find. For
+information your AI provider, GitHub or another service holds, contact that
+service. To make a request to us, write to <a href="mailto:legal@devlin.ai">legal@devlin.ai</a>. We&#39;ll answer
+within 30 days, and we won&#39;t treat you differently for asking. You can also
+complain to your local data protection authority.</p>
+<h2>10. Children</h2>
+<p>Peck is not intended for anyone under 18, and we don&#39;t knowingly collect
+information from children.</p>
+<h2>11. Changes</h2>
+<p>When we change this policy, we&#39;ll update the date at the top and describe the
+change in Peck&#39;s release notes.</p>
+<h2>12. Contact</h2>
+<p>DEVLIN.AI LLC, 4821 NE 16th Ave, Portland, OR 97211, United States ·
+<a href="mailto:legal@devlin.ai">legal@devlin.ai</a></p>
+
+  </main>
+  <footer><div class="wrap">
+    <p>Peck is made by DEVLIN.AI LLC. It runs Claude Code and Codex, which you sign in to with your own accounts.
+    Peck is not affiliated with or endorsed by Anthropic or OpenAI. Claude and Claude Code are trademarks of
+    Anthropic, PBC; Codex and ChatGPT are trademarks of OpenAI.</p>
+    <p><a href="/">Download</a> · <a href="mailto:legal@devlin.ai">legal@devlin.ai</a> · <a href="mailto:security@devlin.ai">security@devlin.ai</a></p>
+  </div></footer>
+</body>
+</html>

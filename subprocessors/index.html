@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peck — Subprocessors</title>
+  <link rel="canonical" href="https://peck.devlin.ai/subprocessors/">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <meta name="theme-color" content="#08080f">
+  <style>
+    @font-face { font-family: "Outfit"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/outfit-latin.woff2") format("woff2"); }
+    :root { --ink: #08080f; --surface: #12121f; --surface-2: #1e1e30; --line: #3a3a5e; --paper: #f0f0f5; --fog: #aaaaaa; --blue-hi: #3b9eff;
+      --display: "Outfit", system-ui, sans-serif; --body: system-ui, -apple-system, "Segoe UI", sans-serif; --mono: Menlo, "SF Mono", Consolas, monospace; }
+    * { box-sizing: border-box; }
+    html { background: var(--ink); color: var(--paper); }
+    body { margin: 0; font: 16px/1.65 var(--body); -webkit-font-smoothing: antialiased; }
+    a { color: var(--blue-hi); }
+    a:focus-visible { outline: 2px solid var(--blue-hi); outline-offset: 3px; }
+    .wrap { width: min(100% - 32px, 760px); margin: 0 auto; }
+    header { padding: 28px 0 8px; border-bottom: 1px solid var(--surface-2); }
+    header .brand { font: 600 22px/1 var(--display); color: var(--paper); text-decoration: none; }
+    header nav { margin-top: 12px; font-size: 14px; color: var(--fog); }
+    header nav span { color: var(--paper); }
+    main { padding: 24px 0 48px; overflow-wrap: anywhere; }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.25; }
+    h1 { font-size: 32px; margin: 16px 0 8px; }
+    h2 { font-size: 22px; margin: 32px 0 8px; }
+    h3 { font-size: 18px; margin: 24px 0 6px; }
+    code { font: 0.9em var(--mono); background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+    pre { background: var(--surface); padding: 12px; border-radius: 8px; overflow-x: auto; }
+    pre code { padding: 0; }
+    .table { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--surface); }
+    blockquote { margin: 0; padding-left: 14px; border-left: 3px solid var(--line); color: var(--fog); }
+    footer { border-top: 1px solid var(--surface-2); padding: 22px 0 36px; font-size: 13px; color: var(--fog); }
+    footer a { color: var(--fog); }
+  </style>
+</head>
+<body>
+  <header><div class="wrap"><a class="brand" href="/">Peck</a><nav><a href="/terms/">Terms of Use</a> · <a href="/privacy/">Privacy Policy</a> · <span aria-current="page">Subprocessors</span> · <a href="/security/">Security overview</a></nav></div></header>
+  <main class="wrap">
+<h1>Peck Subprocessors</h1>
+<p><strong>Last updated: November 11, 2026</strong></p>
+<p>Peck runs on your computer. These are the only services DEVLIN.AI LLC uses to
+provide Peck and to answer you:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Subprocessor</th>
+<th>What for</th>
+<th>Data it handles</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cloudflare, Inc.</td>
+<td>Runs Peck&#39;s relay (only when you turn remote access on)</td>
+<td>End-to-end encrypted messages it can&#39;t read; device identifiers, connection timing, IP addresses</td>
+<td>Global network</td>
+</tr>
+<tr>
+<td>GitHub, Inc.</td>
+<td>Hosts Peck&#39;s releases and updates, and the peck.devlin.ai website</td>
+<td>IP address and download requests when Peck checks for or downloads an update; website visitors&#39; IP addresses</td>
+<td>United States</td>
+</tr>
+<tr>
+<td>Google LLC (Google Workspace)</td>
+<td>Email: <a href="mailto:legal@devlin.ai">legal@devlin.ai</a>, <a href="mailto:security@devlin.ai">security@devlin.ai</a> and our other addresses</td>
+<td>The emails you send us and our replies</td>
+<td>United States</td>
+</tr>
+</tbody></table></div>
+<p>Services you choose to connect (your AI provider, your GitHub account,
+Vercel, Supabase) are yours, not our subprocessors: Peck connects to them for
+you, under your accounts. The same goes for Context7, the documentation
+service Peck&#39;s default settings give your agents: your agent talks to it
+directly, it handles no data on our behalf, and you can remove it in Settings.</p>
+<p>We update this list when we add or change a subprocessor, and note the
+change in Peck&#39;s release notes. Questions: <a href="mailto:legal@devlin.ai">legal@devlin.ai</a>.</p>
+
+  </main>
+  <footer><div class="wrap">
+    <p>Peck is made by DEVLIN.AI LLC. It runs Claude Code and Codex, which you sign in to with your own accounts.
+    Peck is not affiliated with or endorsed by Anthropic or OpenAI. Claude and Claude Code are trademarks of
+    Anthropic, PBC; Codex and ChatGPT are trademarks of OpenAI.</p>
+    <p><a href="/">Download</a> · <a href="mailto:legal@devlin.ai">legal@devlin.ai</a> · <a href="mailto:security@devlin.ai">security@devlin.ai</a></p>
+  </div></footer>
+</body>
+</html>
